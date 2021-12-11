@@ -1,4 +1,6 @@
 class AlbumsModel {
+
+
   late String artistname;
   late String name;
   late String img;

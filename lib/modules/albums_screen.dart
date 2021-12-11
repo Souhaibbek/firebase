@@ -63,7 +63,7 @@ Widget albumsListBuilder(
 ) {
   return InkWell(
     onTap: () {
-      AppCubit.get(context).currentIndex = 4;
+      AppCubit.get(context).currentIndex = 5;
       AppCubit.get(context).getAlbumSongs(model!.name);
     },
     child: Row(

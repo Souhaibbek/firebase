@@ -12,6 +12,7 @@ import 'package:spotifyfirebase/models/songs_models.dart';
 import 'package:spotifyfirebase/models/user_model.dart';
 import 'package:spotifyfirebase/modules/albums_screen.dart';
 import 'package:spotifyfirebase/modules/artists_screen.dart';
+import 'package:spotifyfirebase/modules/favorites_screen.dart';
 import 'package:spotifyfirebase/modules/songs_screen.dart';
 import 'package:spotifyfirebase/modules/submodules/albumsongs.dart';
 import 'package:spotifyfirebase/modules/submodules/artistsongs.dart';
@@ -26,6 +27,7 @@ class AppCubit extends Cubit<AppStates> {
     'All Songs',
     'Artists',
     'Albums',
+    'Favorites',
     'Artist Details',
     'Album Details'
   ];
@@ -33,6 +35,7 @@ class AppCubit extends Cubit<AppStates> {
     SongsScreen(),
     ArtistsScreen(),
     AlbumsScreen(),
+    FavoritesScreen(),
     ArtistSongs(),
     AlbumSongs(),
   ];
@@ -56,6 +59,12 @@ class AppCubit extends Cubit<AppStates> {
       activeColor: Colors.white,
       inactiveColor: Colors.white38,
     ),
+    BottomNavyBarItem(
+      icon: Icon(Icons.favorite),
+      title: Text('Favorite'),
+      activeColor: Colors.white,
+      inactiveColor: Colors.white38,
+    ),
   ];
 
   void changeBotNavBarState(index) {
@@ -73,13 +82,8 @@ class AppCubit extends Cubit<AppStates> {
       favorites.addAll({id: true});
       emit(ChangeFavoriteArtistState());
     } else {
-      if (favorites[id] == true) {
-        favorites[id] = false;
-        emit(ChangeFavoriteArtistState());
-      } else {
-        favorites[id] = true;
-        emit(ChangeFavoriteArtistState());
-      }
+      favorites.remove(id);
+      emit(ChangeFavoriteArtistState());
     }
   }
 
@@ -184,14 +188,13 @@ class AppCubit extends Cubit<AppStates> {
         .doc(uid)
         .set(userModel.toJson())
         .then((value) {
-          
       emit(UserCreateSuccessState());
     }).catchError((error) {
       emit(UserCreateErrorState(error));
     });
   }
 
-  Map getFav = {};
+  // Map getFav = {};
 
   void getFavorites() {
     FirebaseFirestore.instance
@@ -199,11 +202,9 @@ class AppCubit extends Cubit<AppStates> {
         .doc(uid)
         .get()
         .then((value) {
-      print('**********');
-      print(value.get('favorites'));
-      getFav=value.get('favorites');
-      print('hgygyh $getFav');
 
+      favorites = value.get('favorites');
+      // print(getFav);
     }).catchError((error) {});
   }
 }

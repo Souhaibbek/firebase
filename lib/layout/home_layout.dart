@@ -15,7 +15,7 @@ class HomeLayout extends StatelessWidget {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {
           if(state is BotNavBarChangeState){
-            print(AppCubit.get(context).getFav);
+            print(AppCubit.get(context).favorites);
           }
         },
         builder: (context, state) {
