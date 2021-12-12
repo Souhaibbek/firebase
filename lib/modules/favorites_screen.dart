@@ -43,7 +43,7 @@ class FavoritesScreen extends StatelessWidget {
                         ),
                         itemCount: cubit.favorites.length,
                         itemBuilder: (context, index) {
-                          return aartistsListBuilder(
+                          return artistsListBuilder(
                               cubit.artists[index], context);
                         },
                       ),
@@ -57,7 +57,7 @@ class FavoritesScreen extends StatelessWidget {
   }
 }
 
-Widget aartistsListBuilder(ArtistsModel? model, context) {
+Widget artistsListBuilder(ArtistsModel? model, context) {
   return InkWell(
     onTap: () {
       AppCubit.get(context).currentIndex = 4;
